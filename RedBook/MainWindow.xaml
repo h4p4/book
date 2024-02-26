@@ -1,0 +1,75 @@
+﻿<Window x:Class="RedBook.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RedBook" d:DataContext="{d:DesignInstance Type=local:MainViewModel}"
+        mc:Ignorable="d"
+        Title="Синяя книга" Height="Auto" MinHeight="400" Width="800"
+        FontSize="18">
+    <Window.Resources>
+        <local:BooleanToVisibilityConverter x:Key="BoolToVisible"/>
+        <local:InverseBooleanConverter x:Key="InverseBool"/>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Класс" Grid.Column="0"/>
+        <TextBlock Text="Отряд" Grid.Column="1"/>
+        <TextBlock Text="Семейство" Grid.Column="2"/>
+        <TextBlock Text="Род" Grid.Column="3"/>
+        <TextBlock Text="Вид" Grid.Column="4"/>
+        <ComboBox Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Classes}" SelectedItem="{Binding SelectedClass}"/>
+        <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Squads}" SelectedItem="{Binding SelectedSquad}"/>
+        <ComboBox Grid.Row="1" Grid.Column="2" ItemsSource="{Binding Families}" SelectedItem="{Binding SelectedFamily}"/>
+        <ComboBox Grid.Row="1" Grid.Column="3" ItemsSource="{Binding Genuses}" SelectedItem="{Binding SelectedGenuse}"/>
+        <ComboBox Grid.Row="1" Grid.Column="4" ItemsSource="{Binding Species}" SelectedItem="{Binding SelectedSpecies}"/>
+        <Grid Grid.ColumnSpan="5" Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Категория: " Grid.Column="0" Grid.Row="0"/>
+            <TextBlock Text="Распространение: " Grid.Column="0" Grid.Row="1"/>
+            <TextBlock Text="Место обитания: " Grid.Column="0" Grid.Row="2"/>
+            <TextBlock Text="Численность: " Grid.Column="0" Grid.Row="3"/>
+            <TextBlock Text="Охрана: " Grid.Column="0" Grid.Row="4"/>
+            <TextBox IsReadOnly="{Binding IsEditing, Converter={StaticResource InverseBool}}" Grid.Column="1" Grid.Row="0" TextWrapping="Wrap"
+                     Text="{Binding SelectedSpecies.Category, UpdateSourceTrigger=LostFocus}"/>
+            <TextBox IsReadOnly="{Binding IsEditing, Converter={StaticResource InverseBool}}" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap"
+                     Text="{Binding SelectedSpecies.Distribution, UpdateSourceTrigger=LostFocus}"/>
+            <TextBox IsReadOnly="{Binding IsEditing, Converter={StaticResource InverseBool}}" Grid.Column="1" Grid.Row="2" TextWrapping="Wrap"
+                     Text="{Binding SelectedSpecies.Habitat, UpdateSourceTrigger=LostFocus}"/>
+            <TextBox IsReadOnly="{Binding IsEditing, Converter={StaticResource InverseBool}}" Grid.Column="1" Grid.Row="3" TextWrapping="Wrap"
+                     Text="{Binding SelectedSpecies.Count, UpdateSourceTrigger=LostFocus}"/>
+            <TextBox IsReadOnly="{Binding IsEditing, Converter={StaticResource InverseBool}}" Grid.Column="1" Grid.Row="4" TextWrapping="Wrap"
+                     Text="{Binding SelectedSpecies.Protection, UpdateSourceTrigger=LostFocus}"/>
+        </Grid>
+        <StackPanel Grid.Row="3" Orientation="Horizontal" Grid.ColumnSpan="4"
+                    Visibility="{Binding CanEdit, Converter={StaticResource BoolToVisible}}">
+            <TextBlock Text="Включить редактирование " FontSize="15" VerticalAlignment="Center"/>
+            <CheckBox IsChecked="{Binding IsEditing, UpdateSourceTrigger=PropertyChanged}" 
+                      VerticalAlignment="Center"/>
+        </StackPanel>
+        <Button Grid.Row="3" Grid.Column="4" Content="Сохранить" Command="{Binding SaveCommand}"
+                Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisible}}"/>
+    </Grid>
+</Window>
