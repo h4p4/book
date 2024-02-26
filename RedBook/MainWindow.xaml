@@ -69,6 +69,7 @@
             <CheckBox IsChecked="{Binding IsEditing, UpdateSourceTrigger=PropertyChanged}" 
                       VerticalAlignment="Center"/>
         </StackPanel>
+        <Button Grid.Row="3" Grid.Column="4" Content="Добавить" Command="{Binding AddCommand}"/>
         <Button Grid.Row="3" Grid.Column="4" Content="Сохранить" Command="{Binding SaveCommand}"
                 Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisible}}"/>
     </Grid>

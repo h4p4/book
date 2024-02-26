@@ -28,6 +28,7 @@ namespace RedBook
             IsEditing = false;
         }
         public ICommand SaveCommand { get; set; }
+        public ICommand AddCommand { get; set; }
 
         public ObservableCollection<Class> Classes { get => classes; set => SetProperty(ref classes, value); }
         public  ObservableCollection<Squad> Squads { get => squads; set => SetProperty(ref squads, value); }
